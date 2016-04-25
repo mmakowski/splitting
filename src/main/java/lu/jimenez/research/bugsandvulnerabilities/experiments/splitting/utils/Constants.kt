@@ -26,7 +26,17 @@
 package lu.jimenez.research.bugsandvulnerabilities.experiments.splitting.utils
 
 
-
+/**
+ * Variable initialized through the splitting properties files
+ *
+ * Experimental Gen : Experimental Dataset?
+ * Realistic Gen : Realistic dataset
+ * TIME split: list of point in times where we want to split data in two
+ * NB_EXPERIMENT_RANDOM_PURE how many time should we do the random pure experiment
+ * NB_EXPERIMENT_EQUILIBRATE how many time should we do the random equilibrate experiment
+ * Random : generate random experiments
+ * Time: generate time experiment
+ */
 object Constants {
     var EXPERIMENTAL_GEN: Boolean=false
     var REALISTIC_GEN: Boolean=false
