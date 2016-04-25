@@ -23,16 +23,29 @@
 //    Author: Matthieu Jimenez – SnT – matthieu.jimenez@uni.lu
 //
 //////////////////////////////////////////////////////////////////////////////////////////
-package lu.jimenez.research.bugsandvulnerabilities.experiments.splitting.utils
+package lu.jimenez.research.bugsandvulnerabilities.experiments.splitting.time
+
+import lu.jimenez.research.bugsandvulnerabilities.experiments.splitting.utils.Constants
+import lu.jimenez.research.bugsandvulnerabilities.model.extension.experiment.ExperimentalSets
+import lu.jimenez.research.bugsandvulnerabilities.model.internal.Document
 
 
 
-object Constants {
-    var EXPERIMENTAL_GEN: Boolean=false
-    var REALISTIC_GEN: Boolean=false
-    var TIME_SPLIT: List<Int> = listOf()
-    var NB_EXPERIMENT_RANDOM_PURE: Int = 1
-    var NB_EXPERIMENT_EQUILIBRATE: Int = 1
-    var RANDOM = false
-    var TIME = false
+object Time {
+    /**
+     * Splitting dataset in experiments according to time split
+     */
+    fun splitting(listOfInterstingId : List<Int>,mapOfIdDoc : Map<Int, Document>):Map<String,ExperimentalSets>{
+        val mapExperiment = mutableMapOf<String, ExperimentalSets>()
+        for (date in Constants.TIME_SPLIT) {
+            val testingset = mutableListOf<Int>()
+            val trainingset = mutableListOf<Int>()
+            for (i in listOfInterstingId){
+                if (mapOfIdDoc[i]!!.time>date) testingset.add(i)
+                else trainingset.add(i)
+            }
+            mapExperiment.put("Time_$date", ExperimentalSets(trainingset,testingset))
+        }
+        return mapExperiment
+    }
 }

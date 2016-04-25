@@ -8,13 +8,16 @@ This maven module generate experiment according to predefine policies from datas
 
 ### Requirements
 
+* Having run the collector module before
+* Access to the serialized objects
+* Utils and models libraries
 
 ### Content
-
+Utilitary methods to splits the obtained datasets in order to form experiments
     
    
 ### Tests 
-
+No tested yet
 
 ### Note
 

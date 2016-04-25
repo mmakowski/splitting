@@ -25,12 +25,48 @@
 //////////////////////////////////////////////////////////////////////////////////////////
 package lu.jimenez.research.bugsandvulnerabilities.experiments.splitting
 
+import lu.jimenez.research.bugsandvulnerabilities.experiments.splitting.kfoldxvalidation.KFold
+import lu.jimenez.research.bugsandvulnerabilities.experiments.splitting.random.Random
+import lu.jimenez.research.bugsandvulnerabilities.experiments.splitting.time.Time
 import lu.jimenez.research.bugsandvulnerabilities.experiments.splitting.utils.Constants
+import lu.jimenez.research.bugsandvulnerabilities.model.extension.experiment.ExperimentalSets
+import lu.jimenez.research.bugsandvulnerabilities.model.internal.Document
+import lu.jimenez.research.bugsandvulnerabilities.model.internal.DocumentType
+import lu.jimenez.research.bugsandvulnerabilities.utils.Serialization
 import java.util.*
 
 
-class Splitting {
+class Splitting(val pathOfLoading:String, val pathOfSaving:String, val choice:String) {
+    val mapOfIdType = Serialization.loadMapHashData(pathOfLoading+"${choice}_MapOfIdCat.obj") as Map<Int,DocumentType>
 
+    fun launchexperiment() {
+        val kfold = launchKfold()
+        Serialization.saveListData(kfold,pathOfSaving+"${choice}_listKfold.obj")
+        if (Constants.TIME) {
+            val time = launchTime(kfold)
+            Serialization.saveMapStringData(time,pathOfSaving+"${choice}_MapOfIdTime.obj")
+        }
+        if (Constants.RANDOM) {
+            launchRandom(kfold)
+        }
+    }
+
+    fun launchKfold(): List<Int> {
+        return KFold.computeKfoldVulnBugClear(mapOfIdType)
+    }
+
+    fun launchRandom(idFile :List<Int>) {
+        val rand = Random(idFile)
+        val pureRand = rand.pureRandom()
+        Serialization.saveMapStringData(pureRand,pathOfSaving+"${choice}_MapOfPureRandom.obj")
+        val equirand = rand.equilibrateRandom(mapOfIdType)
+        Serialization.saveMapStringData(equirand,pathOfSaving+"${choice}_MapOfEquiRandom.obj")
+    }
+
+    fun launchTime(idFile : List<Int>): Map<String, ExperimentalSets> {
+        val mapOfIdDoc = Serialization.loadMapHashData(pathOfLoading+"${choice}_MapOfIdDoc.obj") as Map<Int, Document>
+        return Time.splitting(idFile,mapOfIdDoc)
+    }
 
 
     companion object run {
@@ -45,6 +81,10 @@ class Splitting {
                 else pathOfSaving = pathOfLoading
 
                 loadingProperties()
+                if(Constants.EXPERIMENTAL_GEN)
+                Splitting(pathOfLoading,pathOfSaving,"experimental").launchexperiment()
+                if(Constants.REALISTIC_GEN)
+                Splitting(pathOfLoading,pathOfSaving,"real").launchexperiment()
             }
         }
         /**
@@ -61,6 +101,8 @@ class Splitting {
             Constants.TIME_SPLIT = properties.getProperty("timeSplit").split(",").map { time -> time.toInt() }
             Constants.NB_EXPERIMENT_RANDOM_PURE = properties.getProperty("nbRandomPureExperiment").toInt()
             Constants.NB_EXPERIMENT_EQUILIBRATE = properties.getProperty("nbRandomEquilibrateExperiment").toInt()
+            Constants.RANDOM = properties.getProperty("random").toBoolean()
+            Constants.TIME = properties.getProperty("time").toBoolean()
 
         }
     }
