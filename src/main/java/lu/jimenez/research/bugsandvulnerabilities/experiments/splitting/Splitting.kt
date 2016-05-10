@@ -114,7 +114,7 @@ class Splitting(val pathOfLoading: String, val pathOfSaving: String, val choice:
          * Method for loading properties located in the splitting.properties file
          */
         fun loadingProperties() {
-            val inputStream = this.javaClass.classLoader.getResourceAsStream("collector.properties")
+            val inputStream = this.javaClass.classLoader.getResourceAsStream("splitting.properties")
 
             val properties = Properties()
             properties.load(inputStream)

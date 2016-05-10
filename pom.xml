@@ -68,6 +68,20 @@
                 </configuration>
             </plugin>
             <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.4.0</version>
+                <configuration>
+
+                    <includePluginDependencies>true</includePluginDependencies>
+                    <mainClass>lu.jimenez.research.bugsandvulnerabilities.experiments.splitting.Splitting</mainClass>
+                    <arguments>
+                        <argument>/home/matthieu/result/serializedObject/
+                        </argument>
+                    </arguments>
+                </configuration>
+            </plugin>
+            <plugin>
                 <groupId>org.jetbrains.dokka</groupId>
                 <artifactId>dokka-maven-plugin</artifactId>
                 <version>${dokka.version}</version>
