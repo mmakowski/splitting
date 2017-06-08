@@ -28,7 +28,7 @@
     </dependencies>
 
     <properties>
-        <kotlin.version>1.0.0</kotlin.version>
+        <kotlin.version>1.0.4</kotlin.version>
         <dokka.version>0.9.4</dokka.version>
         <spek.version>0.1.195</spek.version>
     </properties>
