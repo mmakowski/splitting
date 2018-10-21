@@ -6,7 +6,7 @@
 
     <groupId>lu.jimenez.research</groupId>
     <artifactId>bugsandvulnerabilities-experiments-splitting</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     <packaging>jar</packaging>
 
     <dependencies>
@@ -23,7 +23,7 @@
         <dependency>
             <groupId>lu.jimenez.research</groupId>
             <artifactId>bugsandvulnerabilities-model</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>1.0</version>
         </dependency>
     </dependencies>
 
@@ -76,8 +76,8 @@
                     <includePluginDependencies>true</includePluginDependencies>
                     <mainClass>lu.jimenez.research.bugsandvulnerabilities.experiments.splitting.Splitting</mainClass>
                     <arguments>
-                        <argument>/home/matthieu/result/serializedObject/
-                        </argument>
+                        <argument>${input.dir}</argument>
+                        <argument>${output.dir}</argument>
                     </arguments>
                 </configuration>
             </plugin>
